@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Covid-19 News</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-list>
+      <ion-item>
+        <ion-label>Language</ion-label>
+        <ion-select
+          [(ngModel)]="opcionesBusqueda.idioma"
+          (ionChange)="getFuentesIdioma()"
+        >
+          <ion-select-option
+            value="{{idioma.key}}"
+            *ngFor="let idioma of idiomas"
+            >{{idioma.texto}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Source</ion-label>
+        <ion-select
+          [(ngModel)]="opcionesBusqueda.fuente"
+          [disabled]="!fuentesIdioma.length"
+        >
+          <ion-select-option
+            value="{{fuente.id}}"
+            *ngFor="let fuente of fuentesIdioma"
+            >{{fuente.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-item text-center>
+        <ion-label>
+          <ion-button expand="block" color="danger" (click)="buscarNoticias()"
+            >Search</ion-button
+          >
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card
+    *ngFor="let noticia of noticias"
+    color="light"
+    (click)="presentarNoticia(noticia)"
+  >
+    <img src="{{noticia.urlToImage}}" />
+    <ion-card-header>
+      <ion-card-subtitle>{{noticia.author}}</ion-card-subtitle>
+      <ion-card-title>{{noticia.title}}</ion-card-title>
+      <ion-card-content
+        >{{noticia.content ? noticia.content.substr(0,150) : 'Sin vista
+        previa'}}</ion-card-content
+      >
+    </ion-card-header>
+  </ion-card>
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="cargarMasNoticias($event)"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más noticias..."
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

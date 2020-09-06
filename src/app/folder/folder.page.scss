@@ -30,3 +30,7 @@ ion-menu-button {
 ion-content ion-toolbar {
   --background: transparent;
 }
+
+ion-content.background {
+  --background: url(../../assets/background.png) no-repeat 90% 20%;
+}
